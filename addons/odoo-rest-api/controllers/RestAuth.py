@@ -19,7 +19,7 @@ class RestAuth(http.Controller):
     )
     def SampleRoute(self, param: dict) -> Dict[str, any]:
         args = request.httprequest.args # get parameter from url
-        jsonargs = request.jsonrequest # get parameter from json
+        jsonargs = request.dispatcher.jsonrequest # get parameter from json
         data = {
             'param1': args.get('param1'),
             'param2': args.get('param2'),
@@ -33,8 +33,7 @@ class RestAuth(http.Controller):
         auth="none", type="json", methods=['POST'], csrf=False
     )
     def Login(self) -> Dict[str, any]:
-
-        params = request.jsonrequest
+        params = request.dispatcher.jsonrequest
         try:
             request.session.authenticate(params['db'], params['username'], params['password'])
             return RestHelper.JsonValidResponse(request.env['ir.http'].session_info())

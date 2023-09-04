@@ -20,7 +20,7 @@ class RestController(http.Controller):
     )
     def SampleRoute(self, param: Dict[str, any]) -> Dict[str, any]:
         args = request.httprequest.args # get parameter from url
-        jsonargs = request.jsonrequest # get parameter from json
+        jsonargs = request.dispatcher.jsonrequest # get parameter from json
         data = {
             'param1': args.get('param1'),
             'param2': args.get('param2'),
@@ -124,7 +124,7 @@ class RestController(http.Controller):
     ], auth="user", type="json", methods=['POST'], csrf=False)
     def PostData(self, model: str) -> Dict[str, any]:
 
-        params = request.jsonrequest
+        params = request.dispatcher.jsonrequest
 
         try:
             record = request.env[model].sudo().create(params)
@@ -141,7 +141,7 @@ class RestController(http.Controller):
     ], auth="user", type="json", methods=['PUT'], csrf=False)
     def PutData(self, model: str, rec_id: Optional[int] = None) -> Dict[str, any]:
 
-        params = request.jsonrequest
+        params = request.dispatcher.jsonrequest
         args = request.httprequest.args
 
         try:
@@ -188,7 +188,7 @@ class RestController(http.Controller):
     ], auth="user", type="json", methods=['DELETE'], csrf=False)
     def DeleteData(self, model: str, rec_id: Optional[int] = None) -> Dict[str, any]:
 
-        params = request.jsonrequest
+        params = request.dispatcher.jsonrequest
         args = request.httprequest.args
 
         try:
